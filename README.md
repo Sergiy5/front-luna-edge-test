@@ -1,0 +1,1 @@
+- Не закінчив progress bar у sidebar (логіку) 
