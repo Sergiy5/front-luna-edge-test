@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { CustomBtn, CustomInput } from "../ui";
 import { ErrorMessage } from "../ui/ErrorMessage";
-import { logedInSignal } from "@/app/context/Context";
+import { logedInSignal, progressBarStatusSignal } from "@/app/context/Context";
 import { TextWithLink } from "../ui/TextWithLink";
 
 export interface IRegisterUser {
@@ -32,6 +32,10 @@ export const Login: React.FC = () => {
     console.log("email, password", email, password);
     logedInSignal.value = { email, password };
     setIsSubmitted(true);
+    progressBarStatusSignal.value.currentStep++;
+     progressBarStatusSignal.value.done = 4;
+
+
     router.push("/account-setup/login/success");
   };
 

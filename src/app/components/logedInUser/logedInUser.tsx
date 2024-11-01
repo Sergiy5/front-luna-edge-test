@@ -1,12 +1,15 @@
 "use client";
 
-import { userCredentialsSignal } from "@/app/context/Context";
+import { progressBarStatusSignal, userCredentialsSignal } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import { InfoStep } from "../infoStep/InfoStep";
 import { CustomBtn } from "../ui";
 
 export const LogedInUser: React.FC = () => {
   const router = useRouter();
+    progressBarStatusSignal.value.currentStep = 1;
+
+  
   if (userCredentialsSignal.value.name.length === 0) {
     router.replace("/account-setup");
   }

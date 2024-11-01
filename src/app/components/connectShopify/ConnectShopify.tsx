@@ -4,18 +4,25 @@ import { FaCheck } from "react-icons/fa6";
 import { CustomBtn } from "../ui";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { conectedStore } from "@/app/context/Context";
+import { conectedStore, progressBarStatusSignal } from "@/app/context/Context";
 
 export const ConnectShopify: React.FC = () => {
   const router = useRouter();
-  
+
+
+
   const handleRoute = () => {
+    progressBarStatusSignal.value.done = 2;
+    progressBarStatusSignal.value.currentStep = 3;
+    
+    
     if (conectedStore.value.includes("Shopify")) {
       router.push("/account-setup/connect-store/already-connected");
       return;
     }
     conectedStore.value = ["Shopify"];
     router.push("/account-setup/connect-store/connect-store-success");
+
   };
 
   return (

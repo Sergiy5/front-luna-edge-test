@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { CustomBtn, CustomInput } from "../ui";
 import { ErrorMessage } from "../ui/ErrorMessage";
-import { userCredentialsSignal } from "@/app/context/Context";
+import { progressBarStatusSignal, userCredentialsSignal } from "@/app/context/Context";
 import { TextWithLink } from "../ui/TextWithLink";
 
 export interface IRegisterUser {
@@ -29,8 +29,16 @@ export const Register: React.FC = () => {
 
   const onSubmit = async (data: IRegisterUser) => {
     const { email, name, password } = data;
-    userCredentialsSignal.value = { name, email, password };
+
     setIsSubmitted(true);
+
+    // Context state user
+    userCredentialsSignal.value = { name, email, password };
+    // Context state progressBar
+    progressBarStatusSignal.value.currentStep = 2;
+    progressBarStatusSignal.value.done = 1;
+
+
     router.push("/account-setup/connect-store");
   };
 

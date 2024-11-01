@@ -1,5 +1,6 @@
 "use client";
 
+import { progressBarStatusSignal } from "@/app/context/Context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaCheck } from "react-icons/fa6";
@@ -10,6 +11,10 @@ export const ConnectSupport: React.FC = () => {
   const router = useRouter();
 
   const handleRoute = () => {
+    progressBarStatusSignal.value.currentStep = 4;
+
+     progressBarStatusSignal.value.done = 3;
+
     router.push("/account-setup/connect-support/connect-support-success");
   };
 

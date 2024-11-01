@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { FaCheck } from "react-icons/fa6";
-import { ProgressBarProps } from "@/app/types/components";
+// import { ProgressBarProps } from "@/app/types/components";
 import { ProgressBarBtn } from "./ProgressBarBtn";
 import { usePathname, useRouter } from "next/navigation";
+import { progressBarStatusSignal } from "@/app/context/Context";
 
 const array = [
   "Welcome",
@@ -13,10 +14,7 @@ const array = [
   "Connect your customer support email",
   "Done",
 ];
-export const ProgressBar: React.FC<ProgressBarProps> = ({
-  currentStep,
-  steps = 1,
-}) => {
+export const ProgressBar: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -43,6 +41,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
      // Navigate to the next page
      const nextPage = pageOrder[currentIndex + 1];
      router.push(nextPage);
+    progressBarStatusSignal.value.currentStep ++;
 
    } else {
      setDisabled(true );
@@ -52,10 +51,12 @@ const isFirstPage = pageOrder.indexOf(currentPage) === 0;
 
   const handlePrevStep = () => {
    setDisabled(false);
+    progressBarStatusSignal.value.currentStep--;
 
     router.back();
   };
-
+  const { currentStep, done  } = progressBarStatusSignal.value;
+ const steps =4
   return (
     <div>
       <div className="flex flex-col items-start h-[353px]">
@@ -71,9 +72,11 @@ const isFirstPage = pageOrder.indexOf(currentPage) === 0;
                         : "border-emptyProgressBar"
                     }`}
                 >
-                  {index < currentStep && (
-                    <div className="flex items-center justify-center rounded-full bg-blue-500 size-8 text-white text-[20px]">
-                      <FaCheck className="size-4" />
+                  {index + 1 < currentStep  &&(
+                    <div className={`flex items-center justify-center rounded-full bg-blue-500 size-8 text-white text-[20px]
+                    
+                    `}>
+                      {index <= done && <FaCheck className="size-4" />}
                     </div>
                   )}
                 </div>
